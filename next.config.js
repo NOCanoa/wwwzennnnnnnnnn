@@ -27,7 +27,6 @@ const nextConfig = (phase, { defaultConfig }) => {
     compiler: {
       styledComponents: true,
     },
-    staticPageGeneration: true,
   };
 };
 
