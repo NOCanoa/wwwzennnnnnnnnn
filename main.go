@@ -1,79 +1,66 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
-	"time"
-
-	"github.com/jlaffaye/ftp"
+	"path/filepath"
 )
 
-func main() {
-	start := time.Now()
-	fmt.Printf("Start\n")
-	ftpPassword := "no-pasword"
-	if len(os.Args) >= 3 {
-		ftpPassword = os.Args[1]
-	}
-	ftpUsername := "no-username"
-	if len(os.Args) >= 3 {
-		ftpUsername = os.Args[2]
-	}
-
-	// Define your FTP server credentials
-	ftpServer := "storage.bunnycdn.com:21"
-
-	// Connect to the FTP server
-	conn, err := ftp.Dial(ftpServer)
+func uploadFilesToBunnyCDN(storageZoneName, region, apiKey string) error {
+	outDir := "out"
+	files, err := ioutil.ReadDir(outDir)
 	if err != nil {
-		log.Fatal(err)
-	}
-	defer conn.Quit()
-
-	// Login to the FTP server
-	err = conn.Login(ftpUsername, ftpPassword)
-	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
-	fmt.Printf("Uploading files to FTP server...")
-	// Open the directory you want to upload
-	dir, err := os.Open("./out")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer dir.Close()
-
-	// Get a list of files in the directory
-	files, err := dir.Readdir(0)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Upload each file in the directory
 	for _, file := range files {
-		if file.IsDir() {
-			// Skip subdirectories for now
-			continue
+		filePath := filepath.Join(outDir, file.Name())
+		fileBytes, err := ioutil.ReadFile(filePath)
+		if err != nil {
+			return err
 		}
 
-		// Open the file
-		f, err := os.Open("out/" + file.Name())
+		req, err := http.NewRequest("PUT", fmt.Sprintf("https://%s.bunnycdn.com/%s/%s", region, storageZoneName, file.Name()), bytes.NewReader(fileBytes))
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
-		defer f.Close()
 
-		// Upload the file to the FTP server
-		err = conn.Stor(file.Name(), f)
+		req.Header.Set("AccessKey", apiKey)
+		req.Header.Set("Content-Type", "application/octet-stream")
+		req.Header.Set("Accept", "application/json")
+
+		resp, err := http.DefaultClient.Do(req)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode != http.StatusOK {
+			return fmt.Errorf("upload failed with status code %d", resp.StatusCode)
+		}
+
+		log.Printf("Uploaded %s to BunnyCDN\n", file.Name())
 	}
 
-	fmt.Println("Upload complete!")
-	elapsed := time.Since(start)
-	fmt.Printf("Done in %v\n", elapsed)
-	fmt.Printf("Done!!")
+	return nil
+}
+
+func main() {
+	storageZoneName := "your_storage_zone_name"
+	region := "storage"
+	apiKey := "your_api_key"
+	if len(os.Args) >= 3 {
+		apiKey = os.Args[1]
+	}
+	if len(os.Args) >= 3 {
+		storageZoneName = os.Args[2]
+	}
+
+	if err := uploadFilesToBunnyCDN(storageZoneName, region, apiKey); err != nil {
+		log.Fatal(err)
+	}
 }
