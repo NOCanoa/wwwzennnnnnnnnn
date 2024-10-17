@@ -79,9 +79,7 @@ jobs:
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: ls
-        run: |
-          echo "ls"
-          esho " dir"
+        run: echo "dir"
     
       - name: Set up Go
         uses: actions/setup-go@v5
