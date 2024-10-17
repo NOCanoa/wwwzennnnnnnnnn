@@ -18,22 +18,11 @@ const nextConfig = (phase, { defaultConfig }) => {
 			],
 			domains: ["localhost", "cdn.jsdelivr.net", "raw.githubusercontent.com"], // Allow images from jsDelivr
 		},
-		experimental: {
-			serverActions: {
-				// edit: updated to new key. Was previously `allowedForwardedHosts`
-				allowedOrigins: ["localhost:3000", "get-zen.vercel.app"],
-			},
-		},
+
 		compiler: {
 			styledComponents: true,
 		},
 	};
-	if (phase === PHASE_DEVELOPMENT_SERVER) {
-		return {
-			...defaultConfigWWW,
-			// development only config options here
-		};
-	}
 	return {
 		...defaultConfigWWW,
 		// production only config options here
