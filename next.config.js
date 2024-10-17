@@ -29,34 +29,6 @@ const nextConfig = (phase, { defaultConfig }) => {
     },
     staticPageGeneration: true,
   };
-
-  if (phase === PHASE_DEVELOPMENT_SERVER) {
-    return {
-      ...defaultConfigWWW,
-      // development only config options here
-    };
-  }
-  return {
-    ...defaultConfigWWW,
-    // production only config options here
-    output: "export",
-    exportPathMap: async function () {
-      return {
-        "/": { page: "/" },
-      };
-    },
-    getStaticProps: async () => {
-      return {
-        props: {},
-      };
-    },
-    getStaticPaths: async () => {
-      return {
-        paths: [],
-        fallback: false,
-      };
-    },
-  };
 };
 
 module.exports = {
