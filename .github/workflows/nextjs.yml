@@ -82,19 +82,19 @@ jobs:
 
   # Deployment job
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
+    strategy:
+      matrix:
+        go-version: [1.22.3]
     steps:
-      - name: Deploy to BunnyCDN
-        uses: ayeressian/bunnycdn-storage-deploy@v2.2.3
+      - name: Checkout code
+        uses: actions/checkout@v4
+    
+      - name: Set up Go
+        uses: actions/setup-go@v5
         with:
-          source: "out"
-          destination: "www"
-          storageZoneName: "${{ secrets.STORAGE_NAME }}"
-          storagePassword: "${{ secrets.STORAGE_PASSWORD }}"
-          upload: "true"
-          remove: "false"
-          purgePullZone: "false"
+          go-version: ${{ matrix.go-version }}
+
+      - name: run
+        run: go run main.go ${{ secrets.STORAGE_PASSWORD }} ${{ secrets.STORAGE_NAME }}
