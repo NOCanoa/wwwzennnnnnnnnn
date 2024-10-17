@@ -25,7 +25,7 @@ func main() {
 	ftpServer := "storage.bunnycdn.com:21"
 
 	// Connect to the FTP server
-	conn, err := ftp.Connect(ftpServer)
+	conn, err := ftp.Dial(ftpServer)
 	if err != nil {
 		log.Fatal(err)
 	}
