@@ -29,5 +29,3 @@ const nextConfig = (phase, { defaultConfig }) => {
 		output: "export",
 	};
 };
-
-module.exports = nextConfig;
