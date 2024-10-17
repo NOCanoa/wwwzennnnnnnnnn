@@ -61,7 +61,7 @@ const nextConfig = (phase, { defaultConfig }) => {
 
 module.exports = {
   ...nextConfig,
-  output: "export",
+  output: "static",
   distDir: "out",
   
 };
