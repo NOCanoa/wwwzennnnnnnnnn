@@ -11,7 +11,7 @@ import (
 )
 
 func uploadFilesToBunnyCDN(storageZoneName, region, apiKey string) error {
-	outDir := "out"
+	outDir := "./out"
 	files, err := ioutil.ReadDir(outDir)
 	if err != nil {
 		return err
