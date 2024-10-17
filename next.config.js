@@ -39,7 +39,7 @@ const nextConfig = (phase, { defaultConfig }) => {
   return {
     ...defaultConfigWWW,
     // production only config options here
-    target: "serverless",
+    output: "export",
     exportPathMap: async function () {
       return {
         "/": { page: "/" },
@@ -60,6 +60,8 @@ const nextConfig = (phase, { defaultConfig }) => {
 };
 
 module.exports = {
-  nextConfig,
-  public: 'public',
+  ...nextConfig,
+  output: "export",
+  distDir: "out",
+  
 };
