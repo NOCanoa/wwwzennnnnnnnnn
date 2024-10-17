@@ -27,6 +27,7 @@ const nextConfig = (phase, { defaultConfig }) => {
     compiler: {
       styledComponents: true,
     },
+    staticPageGeneration: true,
   };
 
   if (phase === PHASE_DEVELOPMENT_SERVER) {
@@ -44,7 +45,21 @@ const nextConfig = (phase, { defaultConfig }) => {
         "/": { page: "/" },
       };
     },
+    getStaticProps: async () => {
+      return {
+        props: {},
+      };
+    },
+    getStaticPaths: async () => {
+      return {
+        paths: [],
+        fallback: false,
+      };
+    },
   };
 };
 
-module.exports = nextConfig;
+module.exports = {
+  nextConfig,
+  public: 'public',
+};
