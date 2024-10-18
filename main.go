@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -11,15 +10,15 @@ import (
 )
 
 func uploadFilesToBunnyCDN(storageZoneName, region, apiKey string) error {
-	outDir := "./out"
-	files, err := ioutil.ReadDir(outDir)
+	outDir := "./dist"
+	files, err := os.ReadDir(outDir)
 	if err != nil {
 		return err
 	}
 
 	for _, file := range files {
 		filePath := filepath.Join(outDir, file.Name())
-		fileBytes, err := ioutil.ReadFile(filePath)
+		fileBytes, err := os.ReadFile(filePath)
 		if err != nil {
 			return err
 		}

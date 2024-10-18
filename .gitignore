@@ -18,6 +18,7 @@ pnpm-lock.yaml
 # next.js
 /.next/
 /out/
+/dist/
 
 # production
 /build
