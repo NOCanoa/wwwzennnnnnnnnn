@@ -47,9 +47,9 @@ func uploadFilesToBunnyCDN(storageZoneName, region, apiKey string) error {
 }
 
 func main() {
-	storageZoneName := "where"
+	storageZoneName := "no"
 	region := "storage"
-	apiKey := "nokey"
+	apiKey := "hehe"
 
 	if len(os.Args) >= 3 {
 		apiKey = os.Args[1]
