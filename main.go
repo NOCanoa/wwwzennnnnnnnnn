@@ -82,13 +82,13 @@ func main() {
 	storageZoneName := "no"
 	region := "storage"
 	apiKey := "hehe"
-	/*
-		if len(os.Args) >= 3 {
-			apiKey = os.Args[1]
-		}
-		if len(os.Args) >= 3 {
-			storageZoneName = os.Args[2]
-		}*/
+
+	if len(os.Args) >= 3 {
+		apiKey = os.Args[1]
+	}
+	if len(os.Args) >= 3 {
+		storageZoneName = os.Args[2]
+	}
 
 	if err := uploadFilesToBunnyCDN(storageZoneName, region, apiKey); err != nil {
 		log.Fatal(err)
