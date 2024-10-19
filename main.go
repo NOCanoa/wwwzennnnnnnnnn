@@ -40,7 +40,7 @@ func uploadFile(storageZoneName, region, apiKey, filePath string) error {
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
 		return fmt.Errorf("upload failed with status code %d", resp.StatusCode)
 	}
-	log.Printf("Uploaded %s to BunnyCDN\n", relPath)
+	log.Printf("Uploaded %s to BunnyStorage\n", relPath)
 	return nil
 }
 
@@ -94,5 +94,5 @@ func main() {
 		log.Fatal(err)
 	}
 	elapsed := time.Since(start)
-	log.Printf("Successfully uploaded files to BunnyCDN in %v\n", elapsed)
+	log.Printf("\n\nSuccessfully uploaded files to BunnyCDN in %v\n", elapsed)
 }
