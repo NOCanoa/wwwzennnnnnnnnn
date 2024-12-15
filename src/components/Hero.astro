@@ -6,7 +6,8 @@ import { Image } from 'astro:assets'
 import myImage from '../assets/browsers.png'
 import { ArrowRight } from 'lucide-astro';
 import { motion } from 'motion/react';
-import { getTitleAnimation } from '../animations'
+import { getTitleAnimation } from '../animations';
+import { getAsset } from 'astro:assets';
 
 let titleAnimationCounter = 0;
 function getNewAnimationDelay() {
@@ -54,8 +55,8 @@ function getHeroTitleAnimation() {
     </motion.span>
     <div class="w-2/3 md:w-fit mt-6 gap-3 sm:gap-6 flex flex-col md:flex-row">
       <motion.span client:load {...getHeroTitleAnimation()}>
-        <Button class="w-full" href="/download" isPrimary>
-          Download
+        <Button class="w-full" href="download" isPrimary>
+          Downloadddd
           <ArrowRight class="size-4" />
         </Button>
       </motion.span>
@@ -65,4 +66,4 @@ function getHeroTitleAnimation() {
     </div>
   </div>
 </header>
-<Image src={myImage} alt="Zen browser" class="mx-auto mb-24" loading="eager" />
+<Image src={getAsset(myImage)} alt="Zen browser" class="mx-auto mb-24" loading="eager" />
