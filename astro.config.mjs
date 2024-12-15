@@ -10,7 +10,6 @@ console.log(`Site URL: https://prs-zen-browser-site.b-cdn.net/${prId}`);
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://prs-zen-browser-site.b-cdn.net/1',
-    base: '/1',
+    base: '/${prId}',
     integrations: [tailwind(), react()],
 });
