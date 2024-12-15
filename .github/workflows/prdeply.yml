@@ -52,7 +52,7 @@ jobs:
         with:
           script: |
             const pr_number = context.issue.number;
-            const deploymentUrl = `https://mydomain.com/prs/${pr_number}`;
+            const deploymentUrl = `https://prs-zen-browser-site.b-cdn.net/${pr_number}`;
             const comment = `The deployment is complete for PR #${pr_number} 🎉\n\nView the deployment [here](${deploymentUrl}).`;
             github.rest.issues.createComment({
               ...context.issue,
