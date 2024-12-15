@@ -7,7 +7,6 @@ import myImage from '../assets/browsers.png'
 import { ArrowRight } from 'lucide-astro';
 import { motion } from 'motion/react';
 import { getTitleAnimation } from '../animations';
-import { getAsset } from 'astro:assets';
 
 let titleAnimationCounter = 0;
 function getNewAnimationDelay() {
@@ -66,4 +65,4 @@ function getHeroTitleAnimation() {
     </div>
   </div>
 </header>
-<Image src={getAsset(myImage)} alt="Zen browser" class="mx-auto mb-24" loading="eager" />
+<Image src={myImage} alt="Zen browser" class="mx-auto mb-24" loading="eager" />
