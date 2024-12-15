@@ -26,8 +26,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Log PR ID
+        run: echo "PR_ID is $PR_ID"
+        env:
+          PR_ID: ${{ github.event.number }}
+
       - name: Build project
-        run: pnpm run build:prbuild ${{ github.event.number }}
+        env:
+          PR_ID: ${{ github.event.number }}
+        run: pnpm run build
 
       - name: Deploy to BunnyCDN
         uses: ayeressian/bunnycdn-storage-deploy@v2.2.4
@@ -50,7 +57,8 @@ jobs:
         with:
           script: |
             const pr_number = context.issue.number;
-            const comment = "The deployment is complete for PR #" + pr_number + " go to https://prs-zen-browser-site.b-cdn.net/" + pr_number + "/ 🎉";
+            const deploymentUrl = `https://prs-zen-browser-site.b-cdn.net/${pr_number}`;
+            const comment = `The deployment is complete for PR #${pr_number} 🎉\n\nView the deployment [here](${deploymentUrl}).`;
             github.rest.issues.createComment({
               ...context.issue,
               issue_number: pr_number,
