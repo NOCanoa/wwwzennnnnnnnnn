@@ -26,6 +26,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Log PR ID
+        run: echo "PR_ID is $PR_ID"
+        env:
+          PR_ID: ${{ github.event.number }}
+
       - name: Build project
         env:
           PR_ID: ${{ github.event.number }}
