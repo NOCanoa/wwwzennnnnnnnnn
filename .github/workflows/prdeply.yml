@@ -1,0 +1,58 @@
+name: Upload to Bunny
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Verify pnpm installation
+        run: pnpm --version
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build project
+        run: pnpm run build:prbuild ${{ github.event.number }}
+
+      - name: Deploy to BunnyCDN
+        uses: ayeressian/bunnycdn-storage-deploy@v2.2.4
+        with:
+          source: "dist"
+          destination: "${{ github.event.number }}"
+          storageZoneName: "${{ secrets.STORAGE_NAME }}"
+          storagePassword: "${{ secrets.STORAGE_PASSWORD }}"
+          upload: "true"
+          remove: "false"
+          purgePullZone: "false"
+
+  comment:
+    runs-on: ubuntu-latest
+    needs: upload
+
+    steps:
+      - name: Comment on PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr_number = context.issue.number;
+            const comment = "The deployment is complete for PR #" + pr_number + " go to https://prs-zen-browser-site.b-cdn.net/" + pr_number + "/ 🎉";
+            github.rest.issues.createComment({
+              ...context.issue,
+              issue_number: pr_number,
+              body: comment
+            });
