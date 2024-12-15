@@ -7,5 +7,5 @@ import react from '@astrojs/react';
 // https://astro.build/config
 export default defineConfig({
     integrations: [tailwind(), react()],
-    site: 'https://zen-astro-test.b-cdn.net',
+    site: 'https://prs-zen-browser-site.b-cdn.net/',
 });
