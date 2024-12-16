@@ -6,7 +6,9 @@ on:
 
 jobs:
   upload:
-    if: github.event.issue.pull_request && contains(github.event.comment.body, '/deploy')
+    if: | 
+        github.event.issue.pull_request && contains(github.event.comment.body, '/deploy') && 
+        contains(fromJson('["NOCanoa", "mr-cheff"]'), github.actor) 
     runs-on: ubuntu-latest
 
     steps:
