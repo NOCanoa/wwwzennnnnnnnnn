@@ -34,8 +34,8 @@ jobs:
         with:
           source: "dist"
           destination: "${{ github.event.number }}"
-          storageZoneName: "${{ secrets.STORAGE_NAME }}"
-          storagePassword: "${{ secrets.STORAGE_PASSWORD }}"
+          storageZoneName: "${{ secrets.STORAGE_NAME_PR }}"
+          storagePassword: "${{ secrets.STORAGE_PASSWORD_PR }}"
           upload: "true"
           remove: "false"
           purgePullZone: "false"
@@ -51,7 +51,7 @@ jobs:
           script: |
             const pr_number = context.issue.number;
             const deploymentUrl = `https://846463563435345453554545454.b-cdn.net/setup.html`;
-            const comment = `The deployment is complete for PR #${pr_number} 🎉\n\nSet the value to pr number [here](${deploymentUrl}), an then just reload to /`;
+            const comment = `The deployment is complete for PR #${pr_number} 🎉\n\nSet the value to pr number [here](${deploymentUrl}), an then just reload to / \n\n verry work in progress xD`;
             github.rest.issues.createComment({
               ...context.issue,
               issue_number: pr_number,
